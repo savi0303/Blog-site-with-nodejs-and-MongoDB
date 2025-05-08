@@ -17,7 +17,7 @@ body {
     color: var(--black);
     font-size: var(--font-size-base);
     background-color: #FAF5EE;
-    background-image: url("/img/background.jpg");
+    /* background-image: url("/img/background.jpg"); */
     margin: 0;
 }
 

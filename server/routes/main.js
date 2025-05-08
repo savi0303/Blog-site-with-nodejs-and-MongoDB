@@ -4,6 +4,10 @@ const Post = require('../models/Post');
 const { parse } = require('dotenv');
 
 //Router
+/**
+ * GET
+ * Home
+ */
 router.get('', async(req, res) => {
     try {
         const locals = {
@@ -61,6 +65,26 @@ router.get('', async(req, res) => {
 //     ])
 //  }
 //  insertPostData();
+
+/**
+ * GET
+ * Post :id
+ */
+ router.get('/post/:id', async(req, res) => {
+    try {
+        const locals = {
+            title : "NodeJs Blog",
+            description : "Simple Blog created with NodeJs, Express & MongoDB."
+        }
+
+        let slug = req.params.id;
+
+        const data = await Post.findById({ _id: slug });
+        res.render('post', { locals, data });
+    } catch (error) {
+        console.log(error);
+    }
+ });
 
 
 router.get('/about', (req, res) => {

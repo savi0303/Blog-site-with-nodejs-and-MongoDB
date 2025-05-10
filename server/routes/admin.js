@@ -139,6 +139,47 @@ router.post('/add-post', authMiddleware, async(req, res) => {
     }
 });
 
+/**
+ * GET
+ * Admin - Edit Post
+ */
+router.get('/edit-post/:id', authMiddleware, async(req, res) => {
+    try {
+        const locals = {
+            title: "Edit Post",
+            description: "Free NodeJs Uer Management System"
+        };
+
+        const data = await Post.findOne( { _id: req.params.id });
+
+        res.render('admin/edit-post', {
+            locals,
+            data,
+            layout: adminLayout
+        })
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+/**
+ * PUT
+ * Admin - Edit Post
+ */
+router.put('/edit-post/:id', authMiddleware, async(req, res) => {
+    try {
+        await Post.findByIdAndUpdate(req.params.id, {
+            title: req.body.title,
+            body: req.body.body,
+            updateAt: Date.now()
+        });
+
+        res.redirect(`/edit-post/${req.params.id}`);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 // router.post('/admin', async(req, res) => {
 //     try {
 //         const { username, password } = req.body;
@@ -173,6 +214,20 @@ router.post('/register', async(req, res) => {
     } catch (error) {
         console.log(error);
     }
+});
+
+/**
+ * DELETE
+ * Admin - Delete Post
+ */
+router.delete('/delete-post/:id', authMiddleware, async(req, res) => {
+    try {
+        await Post.deleteOne( { _id: req.params.id } );
+        res.redirect('/dashboard');
+    } catch (error) {
+        console.log(error);
+    }
+
 });
 
 module.exports = router;
